@@ -72,6 +72,38 @@ repos:
         args: [--checks=.clang-tidy, --version=21] # Specifies version
 ```
 
+### Clang-tidy prefixes
+
+Since some platforms have their own version of clang-tidy, you might need a specific prefix.
+
+Any prefix can use a regex. The regex matches all other arguments that are given to clang-tidy, so not only the file that is being checked.
+
+When one prefix is specified without a regex, it is used for all files that are not matched by any other specified regex.
+
+The prefix that is being applied is the **first** one whose regex matches..
+
+To specify this, add the following arguments to the hook:
+
+```yaml
+repos:
+  - repo: https://github.com/BredaUniversityGames/cpp-linter-hooks
+    rev: 7a8a4bb
+    hooks:
+      - id: clang-format
+        args: [--style=file]
+      - id: clang-tidy
+        args: [
+          --checks=.clang-tidy,
+          --clang-tool-prefix,
+          x86_64-linux-gnu-, # Specifies prefix 0
+          --prefix-regex,
+          .*, # Specifies a regex for prefix 0
+          --clang-tool-prefix,
+          aarch64-linux-gnu-, # Specifies prefix 1,
+          ...
+        ]
+```
+
 ## Output
 
 ### clang-format Output
