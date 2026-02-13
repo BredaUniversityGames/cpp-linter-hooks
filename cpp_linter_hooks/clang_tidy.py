@@ -70,6 +70,7 @@ def run_clang_tidy(args=None) -> Tuple[int, str]:
 
             if re.search(regex_string, clang_args) is not None:
                 prefix = ct_prefix
+                break
 
     command = [prefix + "clang-tidy"] + other_args
 
