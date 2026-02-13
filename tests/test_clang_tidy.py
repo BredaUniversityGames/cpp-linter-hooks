@@ -66,16 +66,56 @@ def test_run_clang_tidy_invalid(args, expected_retval, tmp_path):
         # Should give the usual warnings
         (['--checks="boost-*"'], 1),
         # Should use testclang-tidy -> FileNotFoundError
-        (['--checks="-*"', '--clang-tool-prefix', 'test', '--prefix-regex', r'.*'], 1),
+        (['--checks="-*"', "--clang-tool-prefix", "test", "--prefix-regex", r".*"], 1),
         # Should use testclang-tidy -> FileNotFoundError
-        (['--checks="-*"', '--clang-tool-prefix', 'test', '--prefix-regex', r'.*main\.(c|cpp|h|hpp)'], 1),
+        (
+            [
+                '--checks="-*"',
+                "--clang-tool-prefix",
+                "test",
+                "--prefix-regex",
+                r".*main\.(c|cpp|h|hpp)",
+            ],
+            1,
+        ),
         # Should use testclang-tidy -> FileNotFoundError
-        (['--checks="-*"', '--clang-tool-prefix', 'test', '--prefix-regex', r'.*\.c'], 1),
+        (
+            [
+                '--checks="-*"',
+                "--clang-tool-prefix",
+                "test",
+                "--prefix-regex",
+                r".*\.c",
+            ],
+            1,
+        ),
         # Should use clang-tidy -> usual warnings
-        (['--checks="-*"', '--clang-tool-prefix', 'test', '--prefix-regex', r'shouldnotmatch'], 1),
+        (
+            [
+                '--checks="-*"',
+                "--clang-tool-prefix",
+                "test",
+                "--prefix-regex",
+                r"shouldnotmatch",
+            ],
+            1,
+        ),
         # Should use testclang-tidy -> FileNotFoundError
-        (['--checks="-*"', '--clang-tool-prefix', 'test', '--prefix-regex', r'.*\.c', '--clang-tool-prefix', 'test2', '--prefix-regex', 'main'], 1),
-    )
+        (
+            [
+                '--checks="-*"',
+                "--clang-tool-prefix",
+                "test",
+                "--prefix-regex",
+                r".*\.c",
+                "--clang-tool-prefix",
+                "test2",
+                "--prefix-regex",
+                "main",
+            ],
+            1,
+        ),
+    ),
 )
 def test_run_clang_tidy_prefixes_valid(args, expected_retval):
     # copy test file to tmp_path to prevent modifying repo data
@@ -95,11 +135,20 @@ def test_run_clang_tidy_prefixes_valid(args, expected_retval):
         # More regexes than prefixes is invalid.
         # For this type of filtering, I strongly
         # suggest the user to use the files arg.
-        (['--checks="boost-*"', '--prefix-regex', r'.*'], 3),
+        (['--checks="boost-*"', "--prefix-regex", r".*"], 3),
         # Two or more prefixes than there are
         # regexes is confusing
-        (['--checks="boost-*"', '--clang-tool-prefix', 'test', '--clang-tool-prefix', 'test2'], 2),
-    )
+        (
+            [
+                '--checks="boost-*"',
+                "--clang-tool-prefix",
+                "test",
+                "--clang-tool-prefix",
+                "test2",
+            ],
+            2,
+        ),
+    ),
 )
 def test_run_clang_tidy_prefixes_invalid(args, expected_retval):
     # copy test file to tmp_path to prevent modifying repo data
