@@ -81,7 +81,7 @@ Any prefix can use a [regex](https://en.wikipedia.org/wiki/Regular_expression). 
 
 When one prefix is specified without a regex, it is used for all files that are not matched by any other specified regex.
 
-The prefix that is being applied is the **first** one whose regex matches..
+The prefix that is being applied is the **first** one whose regex matches.
 
 To specify this, add the following arguments to the hook:
 
