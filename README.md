@@ -13,6 +13,7 @@ A pre-commit hook that automatically formats and lints your C/C++ code using `cl
 - [Quick Start](#quick-start)
   - [Custom Configuration Files](#custom-configuration-files)
   - [Custom Clang Tool Version](#custom-clang-tool-version)
+  - [Clang-tidy prefixes](#clang-tidy-prefixes)
 - [Output](#output)
   - [clang-format Output](#clang-format-output)
   - [clang-tidy Output](#clang-tidy-output)
@@ -70,6 +71,35 @@ repos:
         args: [--style=file, --version=21] # Specifies version
       - id: clang-tidy
         args: [--checks=.clang-tidy, --version=21] # Specifies version
+```
+
+### Clang-tidy Prefixes
+
+Since some platforms have their own version of clang-tidy, you might need a specific prefix.
+
+Any prefix can use a [regex](https://en.wikipedia.org/wiki/Regular_expression). The regex matches all other arguments that are given to clang-tidy, so not only the file that is being checked.
+
+When one prefix is specified without a regex, it is used for all files that are not matched by any other specified regex.
+
+The prefix that is being applied is the **first** one whose regex matches.
+
+To specify this, add the following arguments to the hook:
+
+```yaml
+repos:
+  - repo: https://github.com/BredaUniversityGames/cpp-linter-hooks
+    rev: v1.1.11-prefix # Prefixes are added in this version
+    hooks:
+      - id: clang-format
+        args: [--style=file]
+      - id: clang-tidy
+        args: [
+          --checks=.clang-tidy,
+          --clang-tool-prefix=x86_64-linux-gnu-, # Specifies prefix 0
+          --prefix-regex=.*x64_linux.*, # Specifies a regex for prefix 0
+          --clang-tool-prefix=aarch64-linux-gnu-, # Specifies prefix 1
+          # Leaving this empty will set its regex to .* (capturing the remaining files)
+        ]
 ```
 
 ## Output
