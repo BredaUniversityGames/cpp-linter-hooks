@@ -96,9 +96,9 @@ repos:
         args: [
           --checks=.clang-tidy,
           --clang-tool-prefix=x86_64-linux-gnu-, # Specifies prefix 0
-          --prefix-regex=.*, # Specifies a regex for prefix 0
-          --clang-tool-prefix=aarch64-linux-gnu-, # Specifies prefix 1,
-          ...
+          --prefix-regex=.*x64_linux.*, # Specifies a regex for prefix 0
+          --clang-tool-prefix=aarch64-linux-gnu-, # Specifies prefix 1
+          # Leaving this empty will set its regex to .* (capturing the remaining files)
         ]
 ```
 
